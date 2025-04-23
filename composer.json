@@ -1,8 +1,8 @@
 {
-  "name": "heyday/silverstripe-formhelper",
+  "name": "plasticstudio/silverstripe-formhelper",
   "description": "Heyday's SilverStripe form helper",
   "type": "silverstripe-vendormodule",
-  "homepage": "http://github.com/heyday/silverstripe-form-helper",
+  "homepage": "https://github.com/PlasticStudio/heyday-legacy-silverstripe-formhelper",
   "keywords": [
     "silverstripe",
     "form",
@@ -32,8 +32,5 @@
     "expose": [
       "js"
     ]
-  },
-  "support": {
-    "issues": "http://github.com/heyday/silverstripe-form-helper/issues"
   }
 }
