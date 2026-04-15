@@ -5,6 +5,7 @@ namespace Heyday\FormHelper;
 use Heyday\FormHelper\Exception\EnvironmentVariableNotSetException;
 use SilverStripe\Core\Environment;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Core\Validation\ValidationResult;
 
 /**
  * Class RecaptchaField
@@ -78,7 +79,7 @@ class RecaptchaField extends FormField
      * @param $validator
      * @return bool
      */
-    public function validate($validator)
+    public function validate(): ValidationResult
     {
         $result = parent::validate($validator);
 
