@@ -81,7 +81,7 @@ class RecaptchaField extends FormField
      */
     public function validate(): ValidationResult
     {
-        $result = parent::validate($validator);
+        $result = parent::validate();
 
         $request = $this->getForm()?->getRequest();
         $captcha = $request?->postVar('g-recaptcha-response');
