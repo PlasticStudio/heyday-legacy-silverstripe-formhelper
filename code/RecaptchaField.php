@@ -80,14 +80,21 @@ class RecaptchaField extends FormField
      */
     public function validate($validator)
     {
-        if (!isset($_REQUEST['g-recaptcha-response']) || empty($_REQUEST['g-recaptcha-response'])) {
-            $validator->validationError($this->name, 'Please complete the recaptcha', 'required');
-            return false;
+        $result = parent::validate($validator);
+
+        $request = $this->getForm()?->getRequest();
+        $captcha = $request?->postVar('g-recaptcha-response');
+
+        if (empty($captcha)) {
+            $result->addFieldError($this->name, 'Please complete the recaptcha');
+            return $result;
         }
+
         $url = 'https://www.google.com/recaptcha/api/siteverify';
+        
         $data = array(
             'secret' => $this->getSecretKey(),
-            'response' => $_REQUEST['g-recaptcha-response']
+            'response' => $captcha
         );
 
         $options = array(
@@ -98,16 +105,19 @@ class RecaptchaField extends FormField
             ),
         );
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
+        $response = file_get_contents($url, false, $context);
+        $response = json_decode($response);
 
-        $result = json_decode($result);
-
-        if ($result->success) {
-            return true;
-        } else {
-            $validator->validationError($this->name, 'The recaptcha could not be validated', 'required');
-            return false;
+        if (!empty($response->success)) {
+            return $result;
         }
+
+        $result->addFieldError(
+            $this->name,
+            'The recaptcha could not be validated'
+        );
+
+        return $result;
 
     }
 }
